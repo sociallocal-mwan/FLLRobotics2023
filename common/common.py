@@ -20,8 +20,6 @@ def LineFollowing_incomplete():
         count +=1    
     
 
-#LineFollowing_incomplete()
-
 
 #stanley's perfect turn 
 #don't go above 175 or below -175
@@ -60,3 +58,22 @@ def gyro_straight(length, desired_yaw):
         print (correction)
     
     motor_pair.stop()
+
+# Simple stop-at-line using reflective sensor
+def stop_at_line():
+    wait_for_seconds(1)
+    motor_pair.start(0,30)
+    while right_eye.get_reflected_light()>50 and left_eye.get_reflected_light(50):
+        pass
+    motor_pair.stop()
+
+    if right_eye.get_reflected_light()<50:
+        motor_pair.start(50,20)
+        while(left_eye.get_reflected_light()>50):
+            pass
+        motor_pair.stop()
+    else:
+        motor_pair.start(-50,20)
+        while(left_eye.get_reflected_light()>50):
+            pass
+        motor_pair.stop()
